@@ -59,7 +59,7 @@ class DeviceTests(unittest.TestCase):
         class Silent(Peer):
             def write(self,data):return len(data)
         with self.assertRaisesRegex(device.DeviceError,'timeout'):
-            device.Device(Silent(),timeout=0.001).hello()
+            device.Device(Silent(),timeout=0.001).hello(ready_timeout=0.001)
     def test_rejection_explains_without_echoing_token(self):
         peer=Peer();d=device.Device(peer);d.pair('123456');peer.fail={'ok':False,'error':'invalid chunk: '+d.token}
         with self.assertRaises(device.DeviceError) as caught:d.status()
@@ -68,6 +68,18 @@ class DeviceTests(unittest.TestCase):
         peer=Peer();d=device.Device(peer);d.pair('123456');peer.fail={'received':999}
         with self.assertRaises(device.DeviceError):d.upload(b'x'*30)
         self.assertNotIn('commit',[x['op'] for x in peer.calls])
+    def test_hello_retries_a_boot_time_lost_request(self):
+        class Booting(Peer):
+            dropped=False
+            def write(self,payload):
+                if not self.dropped:
+                    self.dropped=True
+                    return len(payload)
+                return super().write(payload)
+        peer=Booting();d=device.Device(peer,timeout=0.001)
+        self.assertTrue(d.hello(ready_timeout=0.02)['development'])
+        self.assertEqual(d.sequence,2)
+
     def test_unsupported_device_rejected(self):
         peer=Peer();peer.fail={'development':False}
         with self.assertRaises(device.DeviceError):device.Device(peer).hello()

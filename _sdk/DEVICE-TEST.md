@@ -27,6 +27,8 @@ python3 _tools/hn.py test counter --port /dev/cu.usbmodemDIN_ENHED --isolated
 
 På Windows anvendes fx `--port COM5`; aktiver venv via `.venv\Scripts\activate`.
 Luk andre serielle terminaler. Vælg porten eksplicit; værktøjet vælger ikke en vilkårlig enhed.
+Visse USB-seriel-broer genstarter boardet ved åbning trods deaktiveret DTR/RTS;
+værktøjet gentager derfor kun den læsende handshake under opstart i op til 20 sekunder.
 Tryk **USB · par enhed** fysisk på skærmen og skriv koden i terminalens skjulte prompt.
 Koden gælder 60 sekunder og spærres efter fem fejl. Sessionstoken gemmes kun i RAM
 og udskrives ikke. Brug helst prompten frem for `--pin`, som kan ses i shellhistorik.

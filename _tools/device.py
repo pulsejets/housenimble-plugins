@@ -10,6 +10,9 @@ MAX_PACKAGE=147456
 class DeviceError(RuntimeError):
     pass
 
+class DeviceTimeout(DeviceError):
+    pass
+
 class Device:
     def __init__(self, stream, timeout=5):
         self.stream=stream
@@ -52,10 +55,20 @@ class Device:
                 return response
         except OSError as error:
             raise DeviceError('USB connection failed') from error
-        raise DeviceError('USB timeout: check cable, port and development-core installation')
+        raise DeviceTimeout('USB timeout: check cable, port and development-core installation')
 
-    def hello(self):
-        status=self.request('hello')
+    def hello(self, ready_timeout=20):
+        # Some USB-to-UART bridges reset the board on open despite DTR/RTS=False.
+        # Retry only this read-only handshake while boot initializes the console.
+        deadline=time.monotonic()+ready_timeout
+        while True:
+            try:
+                status=self.request('hello')
+                break
+            except DeviceTimeout:
+                if time.monotonic()>=deadline:
+                    raise
+                time.sleep(min(0.1,max(0,deadline-time.monotonic())))
         if status.get('protocol')!=1 or status.get('coreApi')!=1 or status.get('development') is not True:
             raise DeviceError('Device does not offer development protocol/API 1')
         return status
