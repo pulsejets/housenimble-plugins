@@ -22,3 +22,6 @@ simuleret testmiljø må være offentlige. Core-builds og signeringsnøgler må 
 Se [API](_sdk/API.md), [enhedstest](_sdk/DEVICE-TEST.md) og
 [migrationsplan](_sdk/MIGRATION.md). Licens-/copyright-tekster i den eksisterende
 template er bevaret som udgangspunkt og skal kontrolleres før offentliggørelse.
+
+Udvikling og promovering følger `dev` → `test` → `main`; se
+[DEVELOPMENT.md](DEVELOPMENT.md). GitHub-reglerne er endnu ikke aktiveret.

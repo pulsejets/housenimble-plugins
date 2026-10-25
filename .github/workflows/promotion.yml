@@ -1,0 +1,27 @@
+name: Promotion policy
+on:
+  pull_request:
+    branches: [dev, test, main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+  push:
+    branches: [dev, test, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  promotion:
+    name: Promotion gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test promotion policy
+        run: python3 .github/scripts/test_promotion.py
+      - name: Enforce dev to test to main
+        run: python3 .github/scripts/promotion.py

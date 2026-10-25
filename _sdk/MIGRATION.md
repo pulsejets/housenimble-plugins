@@ -1,8 +1,8 @@
 # Fra samlet firmware til privat core og offentlig Lua-kode
 
 De godkendte navne er `pulsejets/housenimble-core` (privat) og
-`pulsejets/housenimble-plugins` (offentligt). Ingen GitHub-repositories er oprettet,
-ændret, uploadet eller gjort offentlige med dette lokale forslag.
+`pulsejets/housenimble-plugins` (offentligt). Begge repositories er oprettet af ejeren og verificeret 2026-10-25.
+Kode og nye branchregler er kun klargjort lokalt; intet er uploadet.
 
 ## Fortrolighed før første flytning
 

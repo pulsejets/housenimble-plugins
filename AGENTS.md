@@ -11,3 +11,7 @@
 - Test på enheden kræver en separat, privat provisioneret udviklings-core.
 - Ingen push, publicering, upload eller ændring af repository-synlighed uden
   konkret godkendelse fra ejeren. Native legacykode er ikke en Lua-port.
+
+- Udviklingsflow: feature-PR → dev → test → main. Ingen direkte genvej til
+  produktion. Se DEVELOPMENT.md; fysisk test skal gælde præcis test-commit.
+  GitHub-beskyttelsesregler er endnu ikke aktiveret. Push/deploy kræver accept.

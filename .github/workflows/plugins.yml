@@ -1,0 +1,27 @@
+name: Plugin CI
+on:
+  push:
+    branches: [dev, test, main]
+  pull_request:
+    branches: [dev, test, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  plugins:
+    name: Plugin checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Public boundary and package regressions
+        run: python3 -m unittest discover -s _tests -v
+      - name: Validate and package draft example
+        run: |
+          python3 _tools/hn.py check counter
+          python3 _tools/hn.py pack counter --out "$RUNNER_TEMP/counter.hnplugin"
