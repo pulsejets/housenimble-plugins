@@ -2,7 +2,8 @@
 
 De godkendte navne er `pulsejets/housenimble-core` (privat) og
 `pulsejets/housenimble-plugins` (offentligt). Begge repositories er oprettet af ejeren og verificeret 2026-10-25.
-Kode og nye branchregler er kun klargjort lokalt; intet er uploadet.
+Første upload af migrationsgrundlag, branchstruktur og CI er godkendt 2026-10-25.
+Branchbeskyttelse er endnu ikke aktiveret; enhedsupload er ikke godkendt.
 
 ## Fortrolighed før første flytning
 

@@ -14,4 +14,5 @@
 
 - Udviklingsflow: feature-PR → dev → test → main. Ingen direkte genvej til
   produktion. Se DEVELOPMENT.md; fysisk test skal gælde præcis test-commit.
-  GitHub-beskyttelsesregler er endnu ikke aktiveret. Push/deploy kræver accept.
+  Første branch-/CI-upload er godkendt 2026-10-25. GitHub-beskyttelse er
+  endnu ikke aktiveret. Senere push/deploy kræver konkret accept.

@@ -1,8 +1,9 @@
 # Udvikling, enhedstest og produktion
 
-Status: lokalt klargjort. GitHub-branches, beskyttelsesregler og workflows er
-ikke uploadet eller aktiveret. `main` indeholder kun det første migrationsgrundlag;
-det er ikke en godkendt produktionsrelease.
+Status: første opsætning af `dev`, `test` og `main` er godkendt 2026-10-25.
+De tre branches starter på samme gennemgåede migrationsgrundlag med CI. Dette
+er alene bootstrap, ikke en godkendt produktionsrelease eller en fysisk test.
+GitHub-beskyttelsesregler skal aktiveres og verificeres separat før normal drift.
 
 ```mermaid
 flowchart LR
