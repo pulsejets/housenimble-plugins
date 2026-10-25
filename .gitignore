@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+.env.*
+*.hnplugin
+*.bin
+*.elf
+*.map
+*.pem
+*.key
+.pio/
+build/
+dist/
+credentials.json
+google-calendar.json

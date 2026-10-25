@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "country": {
+      "type": "string",
+      "title": "Land / marked",
+      "enum": [
+        "GLOBAL",
+        "DK",
+        "SE",
+        "DE"
+      ],
+      "default": "GLOBAL"
+    },
+    "language": {
+      "type": "string",
+      "title": "Sprog",
+      "enum": [
+        "da",
+        "en"
+      ],
+      "default": "da"
+    },
+    "region": {
+      "type": "string",
+      "title": "Growatt-region",
+      "enum": [
+        "global",
+        "us",
+        "cn"
+      ],
+      "default": "global"
+    },
+    "model": {
+      "type": "string",
+      "enum": [
+        "sph",
+        "min",
+        "storage",
+        "inverter"
+      ],
+      "default": "sph"
+    },
+    "credential": {
+      "type": "string",
+      "title": "Growatt-adgang",
+      "format": "credential-reference",
+      "writeOnly": true
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "draft",
+  "installable": [],
+  "plannedPlugins": [
+    "growatt",
+    "calendar",
+    "flight",
+    "water_tank",
+    "water_heater",
+    "live_power",
+    "watts_live",
+    "top_consumers",
+    "consumption",
+    "power_prices",
+    "electricity",
+    "dishwasher",
+    "kiln",
+    "kiln_graph",
+    "printer",
+    "bambu",
+    "webcam",
+    "shelly",
+    "shelly_lnm",
+    "id4",
+    "overview"
+  ]
+}

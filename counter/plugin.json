@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "housenimble.counter",
+  "name": "Tæller",
+  "description": "Første isolerede Lua-test på en HouseNimble-enhed",
+  "version": "0.1.0",
+  "apiVersion": 1,
+  "runtime": "lua-5.4",
+  "entry": "main.lua",
+  "license": "MIT",
+  "boards": [
+    "esp32-p4"
+  ],
+  "permissions": {
+    "network": [],
+    "mqttSubscribe": [],
+    "mqttPublish": [],
+    "storageBytes": 4096
+  },
+  "limits": {
+    "memoryBytes": 262144,
+    "instructionsPerCallback": 100000,
+    "packageBytes": 131072
+  }
+}
