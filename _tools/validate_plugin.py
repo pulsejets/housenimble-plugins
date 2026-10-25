@@ -119,7 +119,7 @@ def main():
         print(f"Draft package valid: {manifest['id']} {manifest['version']} ({len(payload)} files)")
         if args.out:
             print('SHA-256:', package(args.root,args.out))
-        print('Packaging validation only. Current firmware has no Lua plugin loader.')
+        print('Packaging validation only. Device execution requires an owner-provisioned development core.')
     except (InvalidPlugin, OSError) as error:
         print(f'Invalid plugin: {error}', file=sys.stderr)
         return 1

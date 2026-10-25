@@ -1,7 +1,7 @@
 # Offentlig host-API · udkast 1
 
 Kontrakten er offentlig; dens implementering ligger kun i housenimble-core.
-Nuværende firmware implementerer ikke denne Lua-kontrakt. Pluginpakker består
+Udviklings-core implementerer nu delmængden nedenfor; fysisk installation/test afventer ejeraccept. Pluginpakker består
 af Lua-tekst og data, ikke native moduler eller en distribueret core-firmware.
 
 | Område | Offentlig adgang | Privat ansvar i core |
@@ -35,3 +35,28 @@ Redirects og DNS/IP-skift kontrolleres. MQTT-publicering kræver eksplicit topic
 Store moduler kræver kontrollerede host-funktioner: billed-/kortcache, medievisning,
 OAuth, discovery og midlertidig Wi-Fi-provisionering. Det er grunde til en
 trinvis portering; mapperne alene gør ikke nuværende C++-plugins isolerede.
+
+## Implementeret delmængde: udviklings-API 1
+
+- Lifecycle: `create(ctx)`, `show(ctx)`, `event(ctx,{name=...})`, `hide(ctx)`, `destroy(ctx)`.
+  Normal stop kalder hide/destroy med budget; ved fejl fjernes ressourcer uden flere callbacks.
+- `ctx.ui.page({title})`: én side; coretoolbar er altid uden for pluginets råderum.
+- `ctx.ui.label({id,text})` og `ctx.ui.button({id,text,event})`: samlet højst 12 widgets.
+- `ctx.ui.set_text(id,text)`: kun egne widgets; tekst højst 512 bytes, id/event højst 32.
+- `ctx.storage.get(key,default)` / `set(key,number)`: kun endelige tal, højst 16 nøgler,
+  32 bytes pr. nøgle og deklareret kvote op til 4096 bytes. Core coalescerer writes.
+  Testlageret er separat fra coreopsætning og gemmer én pluginidentitet ad gangen;
+  skift til et andet plugin erstatter denne testidentitets vedvarende lager.
+- `ctx.config.country="GLOBAL"`, `ctx.config.language="da"`: skrivebeskyttelse er
+  ikke en sikkerhedsgrænse; ændringer i Lua-tabellen gemmes ikke. Kun disse defaults
+  understøttes, og andre schemafelter afvises af denne delversion.
+- 32–256 KiB Lua-allokeringer, 1000–100000 instruktioner pr. callback og højst 64
+  host-kald pr. callback. UI/uploadbuffere har særskilte faste coregrænser.
+- Basefunktioner og math; ingen string/table-/coroutinebiblioteker, `pcall`/`xpcall`,
+  metatablefunktioner, fil-/OS-/debug-/package-/loadfunktioner eller native moduler.
+
+`ctx.http`, `ctx.mqtt`, `ctx.log`, billedvisning og øvrige tabelfunktioner ovenfor er
+fremtidig kontrakt, ikke implementeret. Ikke-tomme netværksgrants afvises.
+Testpakker er stored ZIP med præcis plugin.json, main.lua, config.schema.json og LICENSE.
+Transportgrænse er 147456 bytes; udpakket grænse er manifestets budget op til 128 KiB.
+SHA-256, lokale/centrale katalogposter og CRC kontrolleres før aktivering.

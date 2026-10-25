@@ -1,4 +1,4 @@
--- Draft HouseNimble Plugin API 1. The current firmware does not yet host Lua.
+-- HouseNimble development API 1: owner-provisioned Lua core required.
 -- No sockets, HTTP client, credentials, files, LVGL pointers or core internals.
 local count = 0
 local plugin = {}

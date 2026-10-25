@@ -13,3 +13,5 @@ build/
 dist/
 credentials.json
 google-calendar.json
+
+.venv/
