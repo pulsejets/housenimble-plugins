@@ -88,3 +88,19 @@ anbefales til nye integrationer og tillader radius op til 250 NM.
 API'et er til personlig, ikke-kommerciel brug; kommerciel anvendelse kræver en
 særskilt aftale/egnet datakilde. Bevar kildeangivelsen i UI. Pluginets nye Lua-kode
 er MIT; det ændrer ikke dataleverandørens vilkår. Ingen privat C++ er kopieret hertil.
+
+
+## Test fra en hjemmeside
+
+Den offentlige `_sdk/web-usb.js` implementerer samme parrede USB-protokol som
+Python-klienten. Hjemmesiden kan hente en fast, verificeret pluginversion og
+indlæse Flight direkte via Web Serial. USB-kode og sessionstoken sendes kun til
+enheden, aldrig til webserveren. Core-firmware leveres ikke af SDK'et.
+En kompatibel ejerinstalleret udviklings-core kræves; den eksisterende native
+firmware afvises før parring/upload. Dette er stadig en midlertidig udviklingstest.
+
+Browsertransportens kontrakttest kan køres med Node 20+:
+
+```sh
+node _tests/web/usb.mjs
+```

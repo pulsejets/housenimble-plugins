@@ -36,3 +36,8 @@ jobs:
           python3 -m unittest discover -s flight/tests -v
           python3 _tools/hn.py check flight
           python3 _tools/hn.py pack flight --out "$RUNNER_TEMP/flight.hnplugin"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Public browser USB contract
+        run: node _tests/web/usb.mjs
