@@ -11,7 +11,8 @@
 - Test på enheden kræver en separat, privat provisioneret udviklings-core.
 - Ingen push, publicering, upload eller ændring af repository-synlighed uden
   konkret godkendelse fra ejeren. Native legacykode er ikke en Lua-port. Lua-counter/USB er implementeret lokalt,
-  men første fysiske prøve afventer godkendt udviklings-core.
+  og første fysiske counter-smoke er bestået 2026-10-26 (SDK/plugin 5b61e42,
+  core-build-id afe8f5c2252afc72). Fuldt fysisk testforløb/produktion er ikke godkendt.
 
 - Udviklingsflow: feature-PR → dev → test → main. Ingen direkte genvej til
   produktion. Se DEVELOPMENT.md; fysisk test skal gælde præcis test-commit.

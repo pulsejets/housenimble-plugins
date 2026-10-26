@@ -4,7 +4,8 @@ Offentlige Lua-plugins og USB-testværktøj. Den fortrolige core ligger i et sep
 privat repository. Dette repo indeholder ingen core-kilde, intern historik eller firmware.
 
 `counter/` kan valideres, pakkes og testes med en ejerinstalleret udviklings-core.
-USB-testfunktionen er implementeret; første fysiske test afventer godkendt core-installation.
+USB-testfunktionen og første fysiske counter-smoke er bestået 2026-10-26.
+Den fulde fysiske tjekliste og produktionsgodkendelse mangler stadig.
 De andre pluginmapper er fortsat migrationsspecifikationer, ikke færdige Lua-porte.
 
 ```sh

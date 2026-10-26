@@ -1,7 +1,8 @@
 # Test ét Lua-plugin på en enhed
 
 USB-værktøjet og den private udviklings-core er implementeret på featurebranchen.
-Bygning og offline-tests er adskilt fra den endnu ikke gennemførte fysiske prøve.
+Første fysiske counter-smoke er bestået 2026-10-26; se counter/DEVICE-TEST.md.
+Den fulde fysiske tjekliste og produktionsgodkendelse mangler stadig.
 Enheden skal først provisioneres af ejeren med den rigtige private udviklings-core.
 Der findes ingen offentlig core-download; pluginudvikleren behøver kun dette repo.
 
