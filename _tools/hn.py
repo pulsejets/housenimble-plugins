@@ -10,6 +10,7 @@ import tempfile
 import time
 from validate_plugin import validate, package, InvalidPlugin
 from device import Device, DeviceError, open_serial
+from plugin_config import configure, ConfigurationError
 
 
 def device_subset(manifest,payload):
@@ -30,8 +31,9 @@ def device_subset(manifest,payload):
     if flight:
         if set(schema['properties'])!={'country','language','latitude','longitude','radius_km','refresh_seconds','max_aircraft','show_ground'}:
             raise InvalidPlugin('Unexpected Flight settings')
-    elif set(schema['properties'])!={'country','language'} or schema['properties']['country'].get('default')!='GLOBAL' or schema['properties']['language'].get('default')!='da':
-        raise InvalidPlugin('This plugin requires unsupported configurable settings')
+    try:configure(schema)
+    except ConfigurationError as error:raise InvalidPlugin(str(error)) from error
+
 
 
 def flight_configuration(values):
@@ -60,6 +62,8 @@ def run_device(args, blob=None, manifest=None):
     paired=False
     try:
         initial=device.hello()
+        if manifest and args.config_values is not None and initial.get('capabilities',{}).get('settingsSchema')!=1:
+            raise DeviceError('Install an owner-approved core with configuration schema 1 first')
         if manifest and manifest['id']=='housenimble.flight' and (not isinstance(initial.get('capabilities'),dict) or initial['capabilities'].get('httpFlight') is not True):
             raise DeviceError('Install an owner-approved core with Flight HTTP support first; this core cannot run Flight')
         if args.command=='status':
@@ -113,7 +117,7 @@ def main():
         if command in ['test','stop']:
             child.add_argument('--pin',help='Six-digit screen code; omit to enter it privately')
         if command=='test':
-            child.add_argument('--config',type=Path,help='Non-secret plugin settings JSON (Flight only)')
+            child.add_argument('--config',type=Path,help='Non-secret plugin settings JSON (flat schema subset 1)')
             child.add_argument('--isolated',action='store_true',required=True)
             child.add_argument('--duration',type=float,help='Stop automatically after this many seconds')
     args=parser.parse_args()
@@ -124,11 +128,12 @@ def main():
         if args.command=='test':
             args.config_values=None
             if args.config:
-                if manifest['id']!='housenimble.flight' or args.config.stat().st_size>768:
-                    raise InvalidPlugin('Only bounded, non-secret Flight configuration is supported')
-                args.config_values=flight_configuration(json.loads(args.config.read_text(encoding='utf-8')))
-                if not isinstance(args.config_values,dict):
-                    raise InvalidPlugin('Plugin configuration must be a JSON object')
+                if args.config.stat().st_size>768:raise InvalidPlugin('Plugin settings exceed 768 bytes')
+                values=json.loads(args.config.read_text(encoding='utf-8'))
+                if not isinstance(values,dict):raise InvalidPlugin('Plugin configuration must be a JSON object')
+                try:args.config_values=configure(json.loads(dict(payload)['config.schema.json']),values)
+                except ConfigurationError as error:raise InvalidPlugin(str(error)) from error
+                if manifest['id']=='housenimble.flight':flight_configuration(args.config_values)
             if args.duration is not None and not 0<args.duration<=840:
                 raise InvalidPlugin('Duration must be between 0 and 840 seconds; a pairing expires after 15 minutes')
             device_subset(manifest,payload)

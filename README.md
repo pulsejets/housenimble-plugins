@@ -67,3 +67,8 @@ begrænset GET-grant. USB-klienten på `codex/flight-plugin` kontrollerer
 `httpFlight` capability og accepterer validerede indstillinger via `--config`.
 Ny privat udviklings-core skal godkendes/installeres før fysisk test. Kortfliser,
 logoer og SD-billeder er ikke porteret. Spotify OAuth aktiveres ikke af Flight.
+
+
+## Fælles udviklingsstandard
+
+Se [SDK-vejledningen](_sdk/DEVELOPMENT.md) for individuel USB-test, generisk konfiguration og samme pakke i firmwarebygninger gennem hjemmesiden.

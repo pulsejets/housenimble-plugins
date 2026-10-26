@@ -55,3 +55,8 @@ derfor tildelt. Hostens capability/grants er afgørende, ikke kun manifestets an
 Den tidligere tæller-smoke er ikke en fysisk Flight-test eller en generel
 produktionsgodkendelse. Hver port har egen DEVICE-TEST.md. Godkendt produktion,
 signaturkontrol og `dev` → `test` → `main` er særskilte trin.
+
+
+## Fælles udviklingsstandard
+
+Se [udviklingsstandarden](DEVELOPMENT.md) for individuel USB-test, generisk konfiguration og samme pakke i firmwarebygninger gennem hjemmesiden.

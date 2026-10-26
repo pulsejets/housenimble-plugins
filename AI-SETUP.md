@@ -143,3 +143,29 @@ player-skrivninger, MQTT og fri LAN-adgang bliver ikke aktiveret af den. Flight
 har ingen native kort/logocache i første Lua-version; README beskriver omfanget.
 Koden er softwareverificeret, og næste handling er ejerens godkendelse af upload,
 ikke at kalde den gamle installerede counter-core Flight-kompatibel.
+
+
+## Offentlig pluginstandard · 2026-10-26
+
+Ejeren har præciseret fælles standard for ALLE plugins: individuel udviklingstest
+uden andre plugins samt firmwarebygning via hjemmesiden. Dette er implementeret
+lokalt med samme offentlige .hnplugin/config til CLI/browser og private bundles.
+Se _sdk/DEVELOPMENT.md.
+Ingen ny GitHub-push, serverdeploy eller fysisk flash er udført i denne ændring.
+Counter og Flight understøttes af den aktuelle host; Spotify/migrationer kræver
+stadig manglende grants/porte. Arkitekturstandard betyder ikke alle porte færdige.
+Kilde/private logs/ELF/header må aldrig ud i public repo. Private slutdele er uden
+for webrepo og udleveres kun til byggejobbets autentificerede ejer. USB-loader
+bevarer fysisk parring; webprofil/firmwareconfig er kun ikke-hemmelige indstillinger.
+Tidligere counter-hardwaretest gælder en ældre build. Ejeren har siden brugt den
+native webfirmware med Min konto; aktuelt installeret app-hash er ikke aflæst.
+Den nye Lua-/bundle-core er IKKE fysisk installeret/testet.
+
+Verificeret lokalt i denne ændring: 52 webtests; offentlig SDK/config/transport
+26 Python-tests + browser-USB-kontrakttest; Flight 13 og Spotify 16 offline-tests.
+Chrome med simuleret USB gennem rigtigt offentligt SDK/pakker bestod på desktop
+og mobil. Privat Lua/LVGL/USB-bundletest bestod ASan/UBSan i 800 og 1024 pixels.
+Et isoleret, autentificeret webbyggejob kørte den rigtige private PlatformIO-
+compiler med Counter + Flight, og det færdige fire-dels manifest blev valideret
+uden NVS-overlap. Ingen fysisk skærm/aktiv database/container blev ændret.
+Docker-imageverifikation er separat og må ikke mærkes bestået før faktisk exit0.

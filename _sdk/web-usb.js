@@ -1,7 +1,28 @@
-// MIT · HouseNimble public plugin SDK. No private core implementation.
+/* MIT License
+
+Copyright (c) 2026 HouseNimble plugin-template contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+Public USB client only; no private core implementation. */
 const encoder=new TextEncoder();
 export class LuaUsb {
- constructor(port,{timeout=5000}={}){this.port=port;this.timeout=timeout;this.sequence=0;this.token=null;this.pending=new Map();this.queue=Promise.resolve();this.queued=0;this.closed=true;}
+ constructor(port,{timeout=5000,manifest={id:'housenimble.flight',apiVersion:1,permissions:{network:['https://opendata.adsb.fi'],mqttSubscribe:[],mqttPublish:[]}}}={}){this.manifest=manifest;this.port=port;this.timeout=timeout;this.sequence=0;this.token=null;this.pending=new Map();this.queue=Promise.resolve();this.queued=0;this.closed=true;}
  async open(){
   await this.port.open({baudRate:115200,bufferSize:8192});this.closed=false;
   this.reader=this.port.readable.getReader();this.writer=this.port.writable.getWriter();this.reading=this.readLoop();
@@ -27,7 +48,7 @@ export class LuaUsb {
    const id=++this.sequence;const message={id,op,...fields};if(this.token)message.token=this.token;
    const bytes=encoder.encode('@HN1 '+JSON.stringify(message)+'\n');if(bytes.length>1800)throw new Error('USB-meddelelsen er for stor.');
    // Arm the response before writing: a fast device may acknowledge immediately.
-   let slot;const response=new Promise((resolve,reject)=>{slot={resolve,reject,timer:setTimeout(()=>{this.pending.delete(id);reject(new Error('Skærmen svarede ikke. Kontrollér kabel og Flight-kompatibel udviklings-core.'));},this.timeout)};this.pending.set(id,slot);});
+   let slot;const response=new Promise((resolve,reject)=>{slot={resolve,reject,timer:setTimeout(()=>{this.pending.delete(id);reject(new Error('Skærmen svarede ikke. Kontrollér kabel og kompatibel udviklings-core.'));},this.timeout)};this.pending.set(id,slot);});
    try{await Promise.race([this.writer.write(bytes),response]);}catch{clearTimeout(slot.timer);this.pending.delete(id);slot.resolve(null);throw new Error('Kunne ikke skrive til USB-porten.');}
    return response;
   };
@@ -36,8 +57,10 @@ export class LuaUsb {
  async hello({wait=20000}={}){
   const until=Date.now()+wait;let status;
   for(;;){try{status=await this.request('hello');break;}catch(error){if(this.closed||Date.now()>=until)throw error;}}
-  if(status.protocol!==1||status.coreApi!==1||status.development!==true||status.capabilities?.httpFlight!==true)throw new Error('Skærmen kræver en Flight-kompatibel Lua-udviklings-core. Den nuværende firmware blev ikke ændret.');
-  return status;
+  if(status.protocol!==1||status.coreApi!==1||status.development!==true||(this.manifest.permissions?.network?.length&&status.capabilities?.httpFlight!==true))throw new Error('Skærmen kræver en kompatibel Lua-udviklings-core. Den nuværende firmware blev ikke ændret.');
+  if(this.manifest.apiVersion!==1||this.manifest.permissions?.mqttSubscribe?.length||this.manifest.permissions?.mqttPublish?.length)throw new Error('Pluginet kræver host-understøttelse, som ikke er implementeret endnu.');
+  const origins=this.manifest.permissions?.network||[];if(origins.length&&(this.manifest.id!=='housenimble.flight'||origins.length!==1||origins[0]!=='https://opendata.adsb.fi'))throw new Error('Pluginets netværksadgang understøttes ikke af denne core.');
+  this.capabilities=status.capabilities||{};return status;
  }
  async pair(pin){
   if(!/^[0-9]{6}$/.test(pin))throw new Error('Indtast de seks tal fra USB · par enhed.');
@@ -49,13 +72,14 @@ export class LuaUsb {
   if(!(bytes instanceof Uint8Array)||bytes.length<22||bytes.length>147456)throw new Error('Ugyldig pluginpakke.');
   if(!config||typeof config!=='object'||Array.isArray(config)||encoder.encode(JSON.stringify(config)).length>768)throw new Error('Ugyldige pluginindstillinger.');
   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
+  if(this.capabilities?.settingsSchema!==1&&this.manifest.id!=='housenimble.flight')throw new Error('Opdatér udviklings-core for at bruge generelle pluginindstillinger.');
   await this.request('begin',{size:bytes.length,sha256:hash,isolated:true,config});
   for(let offset=0;offset<bytes.length;offset+=768){
    const part=bytes.subarray(offset,offset+768);const data=btoa(String.fromCharCode(...part));
    const result=await this.request('chunk',{offset,data});if(result.received!==offset+part.length)throw new Error('Skærmen bekræftede et forkert antal bytes.');
    onProgress((offset+part.length)/bytes.length);
   }
-  const result=await this.request('commit');if(result.active!==true||result.plugin!=='housenimble.flight')throw new Error('Flight kunne ikke startes.');return result;
+  const result=await this.request('commit');if(result.active!==true||result.plugin!==this.manifest.id)throw new Error('Pluginet kunne ikke startes.');return result;
  }
  status(){return this.request('status');}
  async close({stop=true}={}){
