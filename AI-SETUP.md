@@ -109,3 +109,23 @@ Visning er ikke installation. Opsætningssidens native firmwareplugins er separa
 Branchbeskyttelse og PR-status skal verificeres på ny, når de er relevante.
 Dokumentér kun test, der faktisk er udført; gem aldrig tokens, parringskoder,
 private logs eller core-artifacts her.
+
+
+## Verificeret GitHub-upload · 2026-10-26
+
+Ejeren godkendte “upload”. Kategorier og AI-noter på `codex/plugin-categories`
+blev push'et og remote-SHA `6b5b799` verificeret. Draft-PR til dev:
+https://github.com/pulsejets/housenimble-plugins/pull/3
+Senere docs-commits kan ændre branch-head uden funktionelle ændringer.
+
+Webrepoets `codex/installer-pairing-fixes` blev også push'et: kodecommit `1180cc3`
+retter USB-popup-kontrast, kontokodeventetid og bevarelse af valgte native plugins
+ved førstegangsinstallation. 41 webtests og isoleret Chrome-kontrol bestod.
+Det er fortsat adskilt fra Lua-installationsmodellen og deployes ikke ved Git-push.
+
+Lokale søskendefeatures findes stadig: `codex/spotify-plugin` (prototype) og
+`codex/flight-plugin` (Flight-Lua og USB-config; lokal kodecommit `1edb86f`).
+Sidstnævnte er softwaretestet mod en ny privat core, men ikke fysisk installeret.
+Ingen privat core, Flight/Spotify-feature, serverdeploy eller enhedsupload blev
+udført med denne GitHub-accept. Miljøbranches dev/test/main er ikke promoveret.
+Kategorier ses nu i feature-branchens catalog.json, ikke automatisk i main/dev.
