@@ -25,3 +25,19 @@ template er bevaret som udgangspunkt og skal kontrolleres før offentliggørelse
 
 Udvikling og promovering følger `dev` → `test` → `main`; se
 [DEVELOPMENT.md](DEVELOPMENT.md). GitHub-reglerne er endnu ikke aktiveret.
+
+
+## Kategorier på hjemmesiden
+
+`catalog.json` indeholder `categories`: en ordnet liste med `name` og `plugins`.
+Hvert plugin-id (mappenavnet) tilhører præcis én kategori. Listen omfatter også
+planlagte plugins og eksempler; kategorien ændrer ikke pluginets test- eller
+udgivelsesstatus. Tilføj nye pluginmapper til den relevante kategoris `plugins`.
+
+HouseNimble læser kategorierne fra den valgte grens katalog og viser dem som
+foldbare grupper i denne rækkefølge. Den første gruppe er åben fra start.
+Søgning og filtre åbner automatisk grupper med match. Ukategoriserede nye
+mapper kan stadig opdages og vises med en reservekategori.
+
+Kategorier er katalogmetadata. De indgår ikke i pluginets runtime-konfiguration
+eller enhedspakke og kræver ingen ændring af den private core eller plugin-API'et.
