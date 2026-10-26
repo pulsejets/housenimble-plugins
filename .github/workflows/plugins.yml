@@ -25,3 +25,9 @@ jobs:
         run: |
           python3 _tools/hn.py check counter
           python3 _tools/hn.py pack counter --out "$RUNNER_TEMP/counter.hnplugin"
+      - name: Test Spotify prototype offline in Lua 5.4
+        run: |
+          python3 -m pip install -r spotify/tests/requirements.txt
+          python3 -m unittest discover -s spotify/tests -v
+          python3 _tools/hn.py check spotify
+          python3 _tools/hn.py pack spotify --out "$RUNNER_TEMP/spotify.hnplugin"

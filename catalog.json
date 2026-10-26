@@ -57,6 +57,12 @@
       ]
     },
     {
+      "name": "Musik",
+      "plugins": [
+        "spotify"
+      ]
+    },
+    {
       "name": "Hobby",
       "plugins": [
         "kiln",

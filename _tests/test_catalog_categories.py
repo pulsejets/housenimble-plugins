@@ -11,7 +11,7 @@ class CategoryConfiguration(unittest.TestCase):
         catalog=json.loads((ROOT/'catalog.json').read_text())
         groups=catalog['categories']
         names=[g['name'] for g in groups]
-        self.assertEqual(names,['Dit hjem','Energi','Hverdag','Hobby','På farten','Eksempler'])
+        self.assertEqual(names,['Dit hjem','Energi','Hverdag','Musik','Hobby','På farten','Eksempler'])
         self.assertEqual(len(names),len(set(names)))
         members=[p for g in groups for p in g['plugins']]
         self.assertEqual(len(members),len(set(members)))

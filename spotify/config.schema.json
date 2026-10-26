@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "country": {
+      "type": "string",
+      "title": "Land / marked",
+      "enum": [
+        "GLOBAL",
+        "DK",
+        "SE",
+        "DE",
+        "NO",
+        "FI",
+        "GB",
+        "US"
+      ],
+      "default": "GLOBAL"
+    },
+    "language": {
+      "type": "string",
+      "title": "Sprog",
+      "enum": [
+        "da",
+        "en"
+      ],
+      "default": "da"
+    },
+    "device_id": {
+      "type": "string",
+      "title": "Standard Spotify Connect-enheds-id (valgfrit)",
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_-]*$",
+      "default": ""
+    },
+    "poll_seconds": {
+      "type": "integer",
+      "title": "Opdatering, sekunder",
+      "minimum": 10,
+      "maximum": 300,
+      "default": 15
+    },
+    "volume_step": {
+      "type": "integer",
+      "title": "Lydstyrketrin, procent",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 5
+    },
+    "search_query": {
+      "type": "string",
+      "title": "Søgetekst (indtil host-tastatur understøttes)",
+      "maxLength": 120,
+      "default": ""
+    }
+  }
+}

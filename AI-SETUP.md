@@ -37,13 +37,14 @@ _tools/                    validering, pakning og branchespecifik USB-klient
 _tests/                    offentlige checks; ingen privat core nødvendig
 ```
 
-Der er 22 pluginmapper i kategorikonfigurationen:
+Der er nu 23 pluginmapper i kategorikonfigurationen (efter tilføjelsen af Spotify):
 
 | Kategori | Pluginmapper |
 | --- | --- |
 | Dit hjem | overview, water_tank, water_heater, shelly, shelly_lnm, webcam |
 | Energi | electricity, power_prices, live_power, watts_live, top_consumers, consumption, growatt |
 | Hverdag | calendar, dishwasher |
+| Musik | spotify |
 | Hobby | kiln, kiln_graph, printer, bambu |
 | På farten | flight, id4 |
 | Eksempler | counter |
@@ -55,7 +56,7 @@ kategoritesten, når mapper tilføjes. Første kategori er åben på hjemmesiden
 søgning/filtre åbner grupper med match. Kategorisering giver ingen releasegodkendelse.
 
 Kataloget er fortsat `draft`, `installable` er tom, og 21 mapper er planlagte
-Lua-porte. Counter er et eksempel. Eksisterende native funktioner eller beskrivelser
+Lua-porte. Counter og den nye Spotify-prototype er eksempler, ikke udgivelser. Eksisterende native funktioner eller beskrivelser
 betyder ikke, at deres tilsvarende offentlige Lua-plugin er implementeret.
 
 ## Parallelle feature-branches — vigtigt
@@ -85,6 +86,17 @@ python3 _tools/hn.py test counter --port <USB-port> --isolated --duration 840
 
 Undersøg `python3 _tools/hn.py --help` og `_sdk/DEVICE-TEST.md` på den konkrete
 branch først. Kommandoer i et API-forslag er ikke automatisk tilgængelige.
+
+## Ny Spotify-prototype
+
+`codex/spotify-plugin` er baseret på den lokale `codex/plugin-categories` og har
+kategori-/AI-noterne som uuploadede afhængigheder. `spotify/` indeholder ny Lua,
+manifest, schema, host-kontrakt og offline Lua-tests. Den private referenceapp blev
+kun læst; intet fra dens firmware, login-data eller drivere er kopieret hertil.
+Den første udgave styrer Spotify Connect (og Sonos kun når den er tilgængelig
+via Connect). Direkte Sonos SOAP/discovery/grupper og fuld SpotifyESP-paritet er
+ikke porteret. HTTP/OAuth er endnu ikke leveret til denne pluginversion; den må
+ikke markeres som fysisk testet eller Udgivet. Se spotify/README.md.
 
 ## Hjemmesidens integration
 

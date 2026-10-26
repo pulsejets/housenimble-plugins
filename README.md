@@ -49,3 +49,11 @@ eller enhedspakke og kræver ingen ændring af den private core eller plugin-API
 AI og vedligeholdere: start med [AGENTS.md](AGENTS.md) og den daterede
 [setup-/branchoversigt](AI-SETUP.md). USB-klient og kategorikonfiguration ligger
 foreløbig på separate feature-branches; læs status for den konkrete checkout.
+
+
+## Spotify-controller
+
+[spotify/](spotify/README.md) er en selvstændig, eksperimentel Lua-controller
+med egne offline tests i kategorien Musik. Det er en første delport, ikke en
+færdig SpotifyESP-erstatning. HTTP/OAuth i core og fysisk test mangler; direkte
+Sonos-grupper og covers er endnu ikke porteret. Den private kildeapp er urørt.
