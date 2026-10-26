@@ -24,5 +24,59 @@
     "shelly_lnm",
     "id4",
     "overview"
+  ],
+  "categories": [
+    {
+      "name": "Dit hjem",
+      "plugins": [
+        "overview",
+        "water_tank",
+        "water_heater",
+        "shelly",
+        "shelly_lnm",
+        "webcam"
+      ]
+    },
+    {
+      "name": "Energi",
+      "plugins": [
+        "electricity",
+        "power_prices",
+        "live_power",
+        "watts_live",
+        "top_consumers",
+        "consumption",
+        "growatt"
+      ]
+    },
+    {
+      "name": "Hverdag",
+      "plugins": [
+        "calendar",
+        "dishwasher"
+      ]
+    },
+    {
+      "name": "Hobby",
+      "plugins": [
+        "kiln",
+        "kiln_graph",
+        "printer",
+        "bambu"
+      ]
+    },
+    {
+      "name": "På farten",
+      "plugins": [
+        "flight",
+        "id4"
+      ]
+    },
+    {
+      "name": "Eksempler",
+      "plugins": [
+        "counter"
+      ]
+    }
   ]
 }
