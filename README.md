@@ -1,13 +1,12 @@
 # HouseNimble plugins
 
-Lokalt forslag til et offentligt monorepo med én mappe pr. plugin. Core er en
-separat, privat kodebase. Dette forslag indeholder **ingen core-kildekode,
-firmwarebinærer, private headers eller tidligere Git-historik**.
+Offentlige Lua-plugins og USB-testværktøj. Den fortrolige core ligger i et separat,
+privat repository. Dette repo indeholder ingen core-kilde, intern historik eller firmware.
 
-**Aktuel status:** `counter/` kan valideres og pakkes. De andre pluginmapper er
-migrationsspecifikationer. Den nuværende enhed har endnu ikke Lua-loaderen;
-ingen af disse pakker kan køre på nuværende firmware. Der udføres ingen upload
-eller netværkskald af værktøjerne i forslaget.
+`counter/` kan valideres, pakkes og testes med en ejerinstalleret udviklings-core.
+USB-testfunktionen og første fysiske counter-smoke er bestået 2026-10-26.
+Den fulde fysiske tjekliste og produktionsgodkendelse mangler stadig.
+De andre pluginmapper er fortsat migrationsspecifikationer, ikke færdige Lua-porte.
 
 ```sh
 python3 _tools/hn.py check counter
@@ -15,13 +14,15 @@ python3 _tools/hn.py pack counter --out /tmp/counter.hnplugin
 python3 -m unittest discover -s _tests -v
 ```
 
-Hver pluginmappe får beskrivelse, manifest, Lua-kode, konfigurationsschema,
-assets, tests, `DEVICE-TEST.md` og licens. Fælles schemas, API-kontrakt og et
-simuleret testmiljø må være offentlige. Core-builds og signeringsnøgler må ikke.
+Se [test direkte på en enhed](_sdk/DEVICE-TEST.md) for Python/USB-opsætning,
+fysisk parring og test af kun ét plugin. Ingen core-kilde eller core-genbygning
+kræves på pluginudviklerens computer. Første delversion understøtter tekst,
+knapper og numerisk lager; HTTP/MQTT og større UI-funktioner kommer senere.
 
-Se [API](_sdk/API.md), [enhedstest](_sdk/DEVICE-TEST.md) og
-[migrationsplan](_sdk/MIGRATION.md). Licens-/copyright-tekster i den eksisterende
-template er bevaret som udgangspunkt og skal kontrolleres før offentliggørelse.
+Hver pluginmappe har README, konfigurationsschema, DEVICE-TEST.md og licens;
+manifest og Lua tilføjes efterhånden som pluginet porteres. Land/region/global
+beskrives pr. plugin. Se [API](_sdk/API.md) og [migration](_sdk/MIGRATION.md).
 
-Udvikling og promovering følger `dev` → `test` → `main`; se
-[DEVELOPMENT.md](DEVELOPMENT.md). GitHub-reglerne er endnu ikke aktiveret.
+Udvikling følger `dev` → `test` → `main`; se [DEVELOPMENT.md](DEVELOPMENT.md).
+Core-builds og signeringsnøgler må aldrig indgå her eller i offentlig CI.
+Eksisterende copyright-/licensnotices bevares og skal gennemgås før produktdistribution.
