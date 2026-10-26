@@ -1,37 +1,63 @@
-# Ét plugin på en fysisk enhed
+# Test ét Lua-plugin på en enhed
 
-**Forudsætning, endnu ikke implementeret:** enheden er provisioneret privat med
-udviklings-core, Lua-loader og autentificeret USB-testprotokol. Ingen offentlig
-core-download, privat checkout eller core-build kræves på pluginudviklerens computer.
-Core-installation er en særskilt, ejerstyret proces.
+USB-værktøjet og den private udviklings-core er implementeret på featurebranchen.
+Første fysiske counter-smoke er bestået 2026-10-26; se counter/DEVICE-TEST.md.
+Den fulde fysiske tjekliste og produktionsgodkendelse mangler stadig.
+Enheden skal først provisioneres af ejeren med den rigtige private udviklings-core.
+Der findes ingen offentlig core-download; pluginudvikleren behøver kun dette repo.
 
-1. Kør lokale parser-/UI-/kontrakttests. De erstatter ikke fysisk test.
-2. Valider og pak kun pluginets mappe. Uændret core bygges ikke igen.
-3. Aktivér udviklingstilstand fysisk på enheden og par USB-sessionen.
-4. Indlæs pakken i én reserveret, midlertidig testplads. Core afviser ukendt
-   API-version, board, filer, budget eller capabilities. Afbrudt upload aktiverer
-   aldrig en halv pakke.
-5. Testprofilen består af core og dette ene plugin. Andre offentlige plugins
-   installeres ikke; på en eksisterende enhed skal de kunne suspenderes under testen.
-6. Kontrollér fysisk touch, korrekt visning, offline, reconnect, timeout,
-   ugyldigt JSON, tomme/store svar, fuldt lager og gentagen indlæsning/fjernelse.
-7. Test et bevidst Lua-loop, for stort svar og callback efter fjernelse. Core
-   skal afslutte pluginet, rydde egne ressourcer og bevare netværks-/core-startsiden.
-8. Stop testen og kontrollér oprydning. En genstart skal deaktivere en fejlende
-   midlertidig pakke, ikke starte en crash-løkke.
-9. Gem pluginversion/hash, core-API-version, core-build-id, chiprevision,
-   testtrin og resultat. Del kun pluginets redigerede logs, aldrig ELF,
-   core-dumps, nøgler eller core-kilde.
+## Første installation — udføres af ejeren
 
-Foreslået CLI, når loaderen er bygget:
+Ejeren bygger og installerer udviklings-core til den konkrete hardware. Den indeholder
+Wi-Fi, touch, display, generelle indstillinger og Lua-host, men ingen legacyplugins.
+Installation kræver særskilt ejeraccept og en plan for at vende tilbage til den
+nuværende firmware. Enhedsopsætning i NVS bevares; flash må ikke slettes.
+Core-genstart indlæser aldrig automatisk en tidligere testpakke.
 
-```text
-hn device pair --usb
-hn plugin test ./growatt --usb --isolated
-hn plugin logs growatt --usb
-hn plugin stop --usb
+## På pluginudviklerens computer
+
+Kør fra roden af plugin-repoet:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install -r _tools/requirements.txt
+python3 _tools/hn.py check counter
+python3 _tools/hn.py test counter --port /dev/cu.usbmodemDIN_ENHED --isolated
 ```
 
-Disse enhedskommandoer er endnu ikke implementeret. Den medfølgende `hn.py`
-understøtter kun lokal `check` og `pack`; `test` afviser uden at kontakte enheden.
-Godkendt produktionsinstallation/signaturkontrol er separat fra midlertidig udviklingstest.
+På Windows anvendes fx `--port COM5`; aktiver venv via `.venv\Scripts\activate`.
+Luk andre serielle terminaler. Vælg porten eksplicit; værktøjet vælger ikke en vilkårlig enhed.
+Visse USB-seriel-broer genstarter boardet ved åbning trods deaktiveret DTR/RTS;
+værktøjet gentager derfor kun den læsende handshake under opstart i op til 20 sekunder.
+Tryk **USB · par enhed** fysisk på skærmen og skriv koden i terminalens skjulte prompt.
+Koden gælder 60 sekunder og spærres efter fem fejl. Sessionstoken gemmes kun i RAM
+og udskrives ikke. Brug helst prompten frem for `--pin`, som kan ses i shellhistorik.
+
+Kun denne mappe pakkes og overføres. Intet core-build eller andet plugin overføres.
+Pakke og Lua-state er midlertidige i RAM; et ugyldigt/afbrudt upload aktiveres ikke.
+Pakker med netværkstilladelser eller billeder afvises i den første API-delversion.
+
+Programmet viser status og holder sessionen i live hvert femte sekund. Test tælleren
+med 20 tryk. **Ctrl+C**, skærmens **Stop plugin** eller `--duration 60` stopper testen.
+Ved mistet forbindelse stopper core pluginet efter højst 30 sekunder; parring udløber
+altid efter 15 minutter. En ny fysisk parring stopper også det gamle plugin.
+
+```sh
+# Læs ufølsom core-/pluginstatus uden at starte noget:
+python3 _tools/hn.py status --port /dev/cu.usbmodemDIN_ENHED
+# Stop fra en anden terminal efter ny fysisk parring:
+python3 _tools/hn.py stop --port /dev/cu.usbmodemDIN_ENHED
+```
+
+Ingen rå corelogs eller dumps hentes. UI, numerisk pluginlager, hukommelses- og
+instruktionsgrænser er implementeret. HTTP/MQTT, billeder, konfigurationseditor,
+produktinstallation og signerede releases er endnu ikke understøttet af denne delversion.
+
+## Testnotat og promotion
+
+Notér plugincommit og pakke-SHA-256, core-build-id/API-version, hardware-revision,
+20 fysiske tryk, stop/genindlæsning, genstart, offline/reconnect og afbrudt USB.
+Gem resultatet i pluginets DEVICE-TEST.md. En normal core-genstart skal vise core,
+ikke et fejlende plugin. Pluginets numeriske testdata bevares separat fra coreopsætning.
+`dev` → `test` → fysisk prøve → `main` gælder stadig. Automatisk CI er ikke fysisk test.

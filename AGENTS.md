@@ -10,9 +10,11 @@
 - Beskriv region/land/global understøttelse i pluginets README og schema.
 - Test på enheden kræver en separat, privat provisioneret udviklings-core.
 - Ingen push, publicering, upload eller ændring af repository-synlighed uden
-  konkret godkendelse fra ejeren. Native legacykode er ikke en Lua-port.
+  konkret godkendelse fra ejeren. Native legacykode er ikke en Lua-port. Lua-counter/USB er implementeret lokalt,
+  og første fysiske counter-smoke er bestået 2026-10-26 (SDK/plugin 5b61e42,
+  core-build-id afe8f5c2252afc72). Fuldt fysisk testforløb/produktion er ikke godkendt.
 
 - Udviklingsflow: feature-PR → dev → test → main. Ingen direkte genvej til
   produktion. Se DEVELOPMENT.md; fysisk test skal gælde præcis test-commit.
-  Første branch-/CI-upload er godkendt 2026-10-25. GitHub-beskyttelse er
-  endnu ikke aktiveret. Senere push/deploy kræver konkret accept.
+  Første branch-/CI-upload er godkendt 2026-10-25. Plugin-repoets branches er beskyttet; core var ved seneste kontrol stadig
+  ubeskyttet. Verificér remote før senere ændringer. Senere push/deploy kræver konkret accept.

@@ -3,7 +3,8 @@
 De godkendte navne er `pulsejets/housenimble-core` (privat) og
 `pulsejets/housenimble-plugins` (offentligt). Begge repositories er oprettet af ejeren og verificeret 2026-10-25.
 Første upload af migrationsgrundlag, branchstruktur og CI er godkendt 2026-10-25.
-Branchbeskyttelse er endnu ikke aktiveret; enhedsupload er ikke godkendt.
+Plugin-branches er beskyttet; core var ved seneste kontrol stadig ubeskyttet.
+Den nye feature er kun lokal; enhedsupload er ikke godkendt.
 
 ## Fortrolighed før første flytning
 
@@ -38,4 +39,5 @@ Branchbeskyttelse er endnu ikke aktiveret; enhedsupload er ikke godkendt.
 
 Den eksisterende firmware og enhed er uændret. Nuværende native plugins kan ikke
 blot omdøbes til Lua eller flyttes ud af source-træet og blive dynamiske.
-Der er ingen Lua-loader eller fungerende enheds-upload i dette forslag.
+Første Lua-loader, begrænset UI/lager og USB-test er implementeret på featurebranch.
+Fysisk installation/test er endnu ikke udført; HTTP/MQTT og øvrige porte mangler.
