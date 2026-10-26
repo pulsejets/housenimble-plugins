@@ -1,6 +1,12 @@
 # Ét plugin på en fysisk enhed
 
-**Forudsætning, endnu ikke implementeret:** enheden er provisioneret privat med
+> Branchstatus 2026-10-26: Dette dokument beskriver migrationsgrundlaget i denne
+> checkout. En begrænset loader og USB-klient med første counter-smoke findes på
+> den separate feature-branch `codex/lua-device-test`. Kategoribranchen har ikke
+> dermed fået klienten. Se [AI-SETUP.md](../AI-SETUP.md); kontrollér faktisk
+> implementering før enhedstest. Den bredere API er fortsat et mål, ikke et grant.
+
+**Forudsætning for enhedstest:** enheden er provisioneret privat med
 udviklings-core, Lua-loader og autentificeret USB-testprotokol. Ingen offentlig
 core-download, privat checkout eller core-build kræves på pluginudviklerens computer.
 Core-installation er en særskilt, ejerstyret proces.
@@ -23,7 +29,8 @@ Core-installation er en særskilt, ejerstyret proces.
    testtrin og resultat. Del kun pluginets redigerede logs, aldrig ELF,
    core-dumps, nøgler eller core-kilde.
 
-Foreslået CLI, når loaderen er bygget:
+Tidligt CLI-forslag, ikke implementerede kommandoer (den faktiske feature-klient
+bruger `_tools/hn.py`; se AI-SETUP.md):
 
 ```text
 hn device pair --usb

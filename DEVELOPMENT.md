@@ -36,7 +36,9 @@ Hardware-test-result: <resultat og reference til testnotat>
 ```
 
 Felterne er menneskets attestering; CI kan ikke bevise, at hardwaretesten blev udført.
-Lua-pluginets fysiske test er blokeret, indtil den private loader er implementeret.
+Første counter-smoke og USB-klient findes på den separate feature-branch
+`codex/lua-device-test`; se [AI-SETUP.md](AI-SETUP.md) om branchforskellen.
+Det er ikke en fuld fysisk test af en senere `test`-commit eller en releasegodkendelse.
 Marker aldrig et migrationsudkast eller en simulatortest som fysisk bestået.
 
 ## GitHub-indstillinger før normal drift

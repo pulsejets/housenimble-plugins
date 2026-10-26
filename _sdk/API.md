@@ -1,7 +1,14 @@
 # Offentlig host-API · udkast 1
 
+> Branchstatus 2026-10-26: Dette dokument beskriver migrationsgrundlaget i denne
+> checkout. En begrænset loader og USB-klient med første counter-smoke findes på
+> den separate feature-branch `codex/lua-device-test`. Kategoribranchen har ikke
+> dermed fået klienten. Se [AI-SETUP.md](../AI-SETUP.md); kontrollér faktisk
+> implementering før enhedstest. Den bredere API er fortsat et mål, ikke et grant.
+
 Kontrakten er offentlig; dens implementering ligger kun i housenimble-core.
-Nuværende firmware implementerer ikke denne Lua-kontrakt. Pluginpakker består
+Den fulde kontrakt nedenfor er endnu ikke implementeret. USB-feature-branchen
+har en begrænset delmængde; tabellen er API-målet, ikke faktiske grants. Pluginpakker består
 af Lua-tekst og data, ikke native moduler eller en distribueret core-firmware.
 
 | Område | Offentlig adgang | Privat ansvar i core |
