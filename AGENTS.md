@@ -37,8 +37,9 @@ på dansk. Kontrollér branch, status og remote; docs kan høre til en anden bra
   Del kun redigerede pluginresultater, aldrig privat core-kode, logs eller builds.
 - `catalog.json` er kilde til release-status og kategorier. Planlagte mapper eller
   en lokal valideret pakke er ikke en installerbar eller produktionsgodkendt port.
-- Branch-opmærksomhed: USB-klienten er på `codex/lua-device-test`. Den separate
-  `codex/plugin-categories` bygger fra `dev` og har ikke dermed fået USB-klienten.
+- Branch-opmærksomhed: `codex/lua-device-test` indførte USB-klienten. Den er også
+  genbrugt på `codex/flight-plugin`, som tilføjer Flight-capability/config-kontrol.
+  Den separate `codex/plugin-categories` har fortsat baseline-klienten.
   Se AI-SETUP.md; lov ikke enhedstest ud fra en README fra en anden branch.
 
 Normale lokale checks:

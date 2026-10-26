@@ -2,8 +2,9 @@
 
 > Branchstatus 2026-10-26: Dette dokument beskriver migrationsgrundlaget i denne
 > checkout. En begrænset loader og USB-klient med første counter-smoke findes på
-> den separate feature-branch `codex/lua-device-test`. Kategoribranchen har ikke
-> dermed fået klienten. Se [AI-SETUP.md](../AI-SETUP.md); kontrollér faktisk
+> den separate feature-branch `codex/lua-device-test`. `codex/flight-plugin`
+> genbruger klienten og tilføjer en read-only Flight-grant; kategoribranchen har
+> ikke dermed fået klienten. Se [AI-SETUP.md](../AI-SETUP.md); kontrollér faktisk
 > implementering før enhedstest. Den bredere API er fortsat et mål, ikke et grant.
 
 Kontrakten er offentlig; dens implementering ligger kun i housenimble-core.

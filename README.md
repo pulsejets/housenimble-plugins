@@ -4,12 +4,13 @@ Offentligt monorepo med én mappe pr. plugin. Core er en separat, privat
 kodebase. Dette repo indeholder **ingen core-kildekode,
 firmwarebinærer, private headers eller tidligere Git-historik**.
 
-**Aktuel status:** `counter/` kan valideres og pakkes. De andre pluginmapper er
-migrationsspecifikationer. Denne kategoribranch har baseline-SDK med lokal
-validering/pakning; `test` afviser uden at kontakte enheden. En begrænset
-udviklings-core og faktisk USB-klient med første counter-smoke findes separat på
-`codex/lua-device-test`. Det betyder ikke, at den fulde API eller andre porte er
-klare. Se [AI-SETUP.md](AI-SETUP.md) før enhedstest.
+**Aktuel status på `codex/flight-plugin`:** `counter/` kan valideres, pakkes og
+USB-testes med den ejerinstallerede udviklings-core. `flight/` er en faktisk Lua-
+side, softwareverificeret og klar til enhedstest med en **ny** core med
+`httpFlight`; den nye firmware er endnu ikke installeret. `spotify/` er en
+prototype, der stadig mangler OAuth-/host-understøttelse. De øvrige 20 mapper er
+migrationsspecifikationer. Ingen af disse udsagn er produktionsgodkendelser.
+Se [AI-SETUP.md](AI-SETUP.md) om de forskellige feature-branches.
 
 ```sh
 python3 _tools/hn.py check counter
@@ -57,3 +58,12 @@ foreløbig på separate feature-branches; læs status for den konkrete checkout.
 med egne offline tests i kategorien Musik. Det er en første delport, ikke en
 færdig SpotifyESP-erstatning. HTTP/OAuth i core og fysisk test mangler; direkte
 Sonos-grupper og covers er endnu ikke porteret. Den private kildeapp er urørt.
+
+
+## Flight til enhedstest
+
+[flight/](flight/README.md) er nu en faktisk Lua-side med live flyliste og
+begrænset GET-grant. USB-klienten på `codex/flight-plugin` kontrollerer
+`httpFlight` capability og accepterer validerede indstillinger via `--config`.
+Ny privat udviklings-core skal godkendes/installeres før fysisk test. Kortfliser,
+logoer og SD-billeder er ikke porteret. Spotify OAuth aktiveres ikke af Flight.

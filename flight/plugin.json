@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "housenimble.flight",
+  "name": "Flight · fly i nærheden",
+  "description": "Live fly i nærheden fra adsb.fi: afstand, højde, fart og retning. Selvstændig Lua-side med afgrænset læseadgang gennem privat core.",
+  "version": "0.1.0",
+  "apiVersion": 1,
+  "runtime": "lua-5.4",
+  "entry": "main.lua",
+  "license": "MIT",
+  "boards": [
+    "esp32-p4"
+  ],
+  "permissions": {
+    "network": [
+      "https://opendata.adsb.fi"
+    ],
+    "mqttSubscribe": [],
+    "mqttPublish": [],
+    "storageBytes": 0
+  },
+  "limits": {
+    "memoryBytes": 262144,
+    "instructionsPerCallback": 100000,
+    "packageBytes": 131072
+  }
+}

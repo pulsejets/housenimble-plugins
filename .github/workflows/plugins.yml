@@ -31,3 +31,8 @@ jobs:
           python3 -m unittest discover -s spotify/tests -v
           python3 _tools/hn.py check spotify
           python3 _tools/hn.py pack spotify --out "$RUNNER_TEMP/spotify.hnplugin"
+      - name: Test and package Flight Lua plugin
+        run: |
+          python3 -m unittest discover -s flight/tests -v
+          python3 _tools/hn.py check flight
+          python3 _tools/hn.py pack flight --out "$RUNNER_TEMP/flight.hnplugin"

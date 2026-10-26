@@ -55,8 +55,9 @@ hjemmesiden, ikke en indstilling der sendes til plugin-runtime. Opdatér listen 
 kategoritesten, når mapper tilføjes. Første kategori er åben på hjemmesiden;
 søgning/filtre åbner grupper med match. Kategorisering giver ingen releasegodkendelse.
 
-Kataloget er fortsat `draft`, `installable` er tom, og 21 mapper er planlagte
-Lua-porte. Counter og den nye Spotify-prototype er eksempler, ikke udgivelser. Eksisterende native funktioner eller beskrivelser
+Kataloget er fortsat `draft`, og `installable` er tom. På Flight-feature-branchen
+er 20 mapper planlagte Lua-porte, Flight er klar til enhedstest, og counter/Spotify
+er eksempler uden udgivelsesmarkering. Eksisterende native funktioner eller beskrivelser
 betyder ikke, at deres tilsvarende offentlige Lua-plugin er implementeret.
 
 ## Parallelle feature-branches — vigtigt
@@ -74,8 +75,9 @@ betyder ikke, at deres tilsvarende offentlige Lua-plugin er implementeret.
 På USB-feature-branchen er counter fysisk vist og brugt; stop/genindlæsning og
 udvalgte fejlgrænser blev afprøvet 2026-10-26. Det er en smoke-test, ikke fuld
 produktionsgodkendelse. Core-builddetaljer og private rapporter hører til core-repoet.
-Den aktuelle udviklings-API tilbyder tekst/knapper og numerisk lager. HTTP/MQTT,
-billeder og større UI-/konfigurationsfunktioner er fortsat fremtidigt arbejde.
+Den installerede counter-core tilbyder tekst/knapper og numerisk lager. Den
+lokale Flight-core udvider med afgrænset read-only Flight-HTTP og konfiguration;
+MQTT, Spotify OAuth og billeder er fortsat ikke understøttet.
 
 Kommandoen nedenfor gælder **kun en branch med implementeret USB-klient** og
 kræver, at enhedstest er godkendt. Enheden parres fysisk med en frisk kode:
@@ -121,3 +123,23 @@ Visning er ikke installation. Opsætningssidens native firmwareplugins er separa
 Branchbeskyttelse og PR-status skal verificeres på ny, når de er relevante.
 Dokumentér kun test, der faktisk er udført; gem aldrig tokens, parringskoder,
 private logs eller core-artifacts her.
+
+
+## Flight-udvidelsen · 2026-10-26
+
+Aktuel feature `codex/flight-plugin` bygger videre på de lokale kategori-/AI- og
+Spotify-ændringer. Den genbruger den allerede offentlige USB-klient fra
+`codex/lua-device-test`, inklusive regressionerne, og tilføjer Flight-config og
+capability-kontrol. Det er afhængigt featurearbejde, ikke en merge til dev/main.
+
+`flight/` er nu faktisk Lua med live-liste og har `testable`-status i kataloget.
+Den kræver ejerens nye private core med `httpFlight`; denne core er endnu ikke
+installeret. Flight er ikke længere i plannedPlugins. Der er 23 mapper: 20
+planlagte, to eksempler (counter/spotify) og Flight klar til enhedstest. Det er
+ikke en produktionsrelease eller et fysisk testresultat.
+
+Core-granten er kun anonym GET til adsb.fi's positionsendpoint. Spotify OAuth,
+player-skrivninger, MQTT og fri LAN-adgang bliver ikke aktiveret af den. Flight
+har ingen native kort/logocache i første Lua-version; README beskriver omfanget.
+Koden er softwareverificeret, og næste handling er ejerens godkendelse af upload,
+ikke at kalde den gamle installerede counter-core Flight-kompatibel.

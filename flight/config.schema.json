@@ -7,10 +7,7 @@
       "type": "string",
       "title": "Land / marked",
       "enum": [
-        "GLOBAL",
-        "DK",
-        "SE",
-        "DE"
+        "GLOBAL"
       ],
       "default": "GLOBAL"
     },
@@ -22,6 +19,46 @@
         "en"
       ],
       "default": "da"
+    },
+    "latitude": {
+      "type": "number",
+      "title": "Breddegrad",
+      "minimum": -85,
+      "maximum": 85,
+      "default": 55.6761
+    },
+    "longitude": {
+      "type": "number",
+      "title": "Længdegrad",
+      "minimum": -180,
+      "maximum": 180,
+      "default": 12.5683
+    },
+    "radius_km": {
+      "type": "number",
+      "title": "Radius, km",
+      "minimum": 1,
+      "maximum": 450,
+      "default": 30
+    },
+    "refresh_seconds": {
+      "type": "integer",
+      "title": "Opdatering, sekunder",
+      "minimum": 10,
+      "maximum": 300,
+      "default": 15
+    },
+    "max_aircraft": {
+      "type": "integer",
+      "title": "Vis højst antal fly",
+      "minimum": 1,
+      "maximum": 80,
+      "default": 30
+    },
+    "show_ground": {
+      "type": "boolean",
+      "title": "Vis fly på jorden",
+      "default": false
     }
   }
 }

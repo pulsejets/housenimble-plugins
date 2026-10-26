@@ -5,7 +5,6 @@
   "plannedPlugins": [
     "growatt",
     "calendar",
-    "flight",
     "water_tank",
     "water_heater",
     "live_power",
@@ -84,5 +83,8 @@
         "counter"
       ]
     }
+  ],
+  "testable": [
+    "flight"
   ]
 }
